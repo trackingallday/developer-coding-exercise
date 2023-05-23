@@ -1,2 +1,4 @@
-Django==2.2.13
+Django==4.2.1
 pytz==2018.5
+asgiref==3.6.0
+django-cors-headers==4.0.0
