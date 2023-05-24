@@ -1,6 +1,8 @@
 import re
 from collections import Counter
 from django.db import models
+from django.forms.models import model_to_dict
+
 
 # Create your models here.
 
@@ -28,39 +30,12 @@ stopWords = [
 ]
 
 
-
-# we assume that all posts are formatted in the same way ie:
-"""
-===
-Title: some title
-Author: some author
-Slug: filename-minus-.md
-===
-markdown content....
-"""
 class Post(models.Model):
     content = models.TextField()
     slug = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
 
-    """ 
-        no try catching here because of the assumption that all 
-        posts are formatted in the same way as if it were a DB
-        both of the title and only_content methods
-        use an assumption about the number of lines for the title etc
-    """
-
-    def title(self):
-        lines = self.content.split('\n')
-        title = lines[1].replace('Title: ', '', 1)
-        return title
-  
-    def only_content(self):
-        notags = re.compile('<.*?>') 
-        lines = self.content.split('\n')
-        content = lines[5:]
-        only_content = "\n".join(content)
-        return re.sub(notags, '', only_content)
-
+    @property
     def tags(self):
         all_words_lowercase = [w.lower() for w in re.sub(r"[^a-zA-Z ']", '', self.content).split()]
         stop_words_lowercase = [word.lower() for word in stopWords]
@@ -68,6 +43,3 @@ class Post(models.Model):
         tags = [t[0] for t in Counter(tags).most_common(5)]
         return tags
     
-    def validate_file_content(self):
-        # would be a good idea to validate the file content
-        pass
