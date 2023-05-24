@@ -7,7 +7,7 @@ def post(request, slug):
     post = Post.objects.filter(slug=slug).first()
     if not post:
         return HttpResponseNotFound()
-    return JsonResponse(post.toJSON(), safe=False)
+    return JsonResponse({ 'post': post.toJSON() }, safe=False)
 
 def posts(request):
     posts_as_dicts = [p.toJSON() for p in Post.objects.all()]
