@@ -7,10 +7,8 @@ export default function PostsList(props) {
 
   useEffect(() => {
     // again should be in dotenv vars
-    const p = fetch('http://127.0.0.1:3000/').then(res => res.json()).then(data => setPosts(data.posts));
+    fetch('http://127.0.0.1:3000/').then(res => res.json()).then(data => setPosts(data));
   }, []);
-
-  console.log(posts);
 
   return (<div>
     <h1>Posts</h1>
