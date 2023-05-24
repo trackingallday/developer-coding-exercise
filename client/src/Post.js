@@ -5,7 +5,6 @@ import {
 import ReactMarkdown from 'react-markdown'
 
 
-
 export default function Post(props) {
 
   const [post, setPost] = useState({});
@@ -13,7 +12,7 @@ export default function Post(props) {
 
   useEffect(() => {
     // this should be a dot-env var
-    fetch('http://127.0.0.1:3000/posts/' + slug + '/').then(res => res.json()).then(data => setPost(data));
+    fetch('http://127.0.0.1:3000/posts/' + slug + '/').then(res => res.json()).then(data => setPost(data.post));
   }, []);
 
   if(!post.content) return (<div>Loading...</div>);
