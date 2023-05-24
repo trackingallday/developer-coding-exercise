@@ -42,4 +42,11 @@ class Post(models.Model):
         tags = [word for word in all_words_lowercase if word not in stop_words_lowercase]
         tags = [t[0] for t in Counter(tags).most_common(5)]
         return tags
+  
+    # usually would use djangorestframework for this
+    def toJSON(self):
+      return {
+          **model_to_dict(self, fields=['content', 'slug', 'title']),
+          **{'tags': self.tags }
+            }
     
